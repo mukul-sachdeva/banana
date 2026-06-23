@@ -1,36 +1,5 @@
 import { pool } from '../config/db';
-
-const createTablesSQL = `
-  CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(255),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-  );
-
-  CREATE TABLE IF NOT EXISTS cars (
-    id VARCHAR(50) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    brand VARCHAR(100) NOT NULL,
-    transmission VARCHAR(50) NOT NULL,
-    fuel_type VARCHAR(50) NOT NULL,
-    price_range VARCHAR(100) NOT NULL,
-    image_url VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-  );
-
-  CREATE TABLE IF NOT EXISTS bookings (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    car_id VARCHAR(50) REFERENCES cars(id) ON DELETE CASCADE,
-    city VARCHAR(100) NOT NULL,
-    preferred_date DATE NOT NULL,
-    preferred_time_slot VARCHAR(50) NOT NULL,
-    status VARCHAR(50) DEFAULT 'Pending',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-  );
-`;
+import { CREATE_ALL_TABLES } from './schema';
 
 const seedCars = [
   {
@@ -87,7 +56,28 @@ export async function initializeDatabase() {
     await client.query('BEGIN');
     
     // Create tables
-    await client.query(createTablesSQL);
+    await client.query(CREATE_ALL_TABLES);
+    
+    // Ensure 'city' column exists in bookings table (migration helper)
+    await client.query(`
+      ALTER TABLE bookings ADD COLUMN IF NOT EXISTS city VARCHAR(100);
+    `);
+
+    // Remove NOT NULL constraints on bookings table dynamically (except 'id')
+    const notNullColumnsResult = await client.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name = 'bookings' 
+        AND is_nullable = 'NO' 
+        AND column_name != 'id'
+        AND table_schema = 'public';
+    `);
+
+    for (const row of notNullColumnsResult.rows) {
+      const colName = row.column_name;
+      console.log(`Removing NOT NULL constraint from bookings.${colName}...`);
+      await client.query(`ALTER TABLE bookings ALTER COLUMN "${colName}" DROP NOT NULL`);
+    }
     console.log('Tables verified/created.');
 
     // Seed cars if empty

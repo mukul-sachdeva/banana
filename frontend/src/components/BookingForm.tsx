@@ -9,22 +9,47 @@ interface BookingFormProps {
   onBookingSuccess: (response: BookingResponse) => void;
 }
 
-const TIME_SLOTS = [
-  '09:00 AM - 11:00 AM',
-  '11:00 AM - 01:00 PM',
-  '01:00 PM - 03:00 PM',
-  '03:00 PM - 05:00 PM',
-  '05:00 PM - 07:00 PM'
-];
+const generateAvailableSlots = (selectedDate) => {
+  const slots = [];
+
+  const now = new Date();
+  const selected = new Date(selectedDate);
+
+  const isToday =
+    selected.toDateString() === now.toDateString();
+
+  for (let hour = 9; hour < 18; hour++) {
+    const slotStart = new Date(selected);
+    slotStart.setHours(hour, 0, 0, 0);
+
+    const slotEnd = new Date(selected);
+    slotEnd.setHours(hour + 1, 0, 0, 0);
+
+    // Skip slots already passed for today
+    if (isToday && slotStart <= now) {
+      continue;
+    }
+
+    const start = slotStart.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+
+    const end = slotEnd.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+
+    slots.push(`${start} - ${end}`);
+  }
+
+  return slots;
+};
 
 const CITIES = [
-  'Mumbai',
-  'Delhi',
-  'Bengaluru',
-  'Hyderabad',
-  'Chennai',
-  'Pune',
-  'Kolkata'
+  'Ludhiana'
 ];
 
 export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: BookingFormProps) {
@@ -34,9 +59,13 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
   const [city, setCity] = useState('');
   const [preferredDate, setPreferredDate] = useState('');
   const [preferredTimeSlot, setPreferredTimeSlot] = useState('');
-  
+
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const availableSlots = preferredDate
+    ? generateAvailableSlots(preferredDate)
+    : [];
 
   // Today's date in YYYY-MM-DD format for input "min" attribute
   const todayStr = new Date().toISOString().split('T')[0];
@@ -194,7 +223,10 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
                   className="form-input"
                   style={{ paddingLeft: '38px' }}
                   value={preferredDate}
-                  onChange={(e) => setPreferredDate(e.target.value)}
+                  onChange={(e) => {
+                    setPreferredDate(e.target.value);
+                    setPreferredTimeSlot('');
+                  }}
                   required
                 />
               </div>
@@ -206,15 +238,22 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
               <Clock size={16} /> Preferred Time Slot *
             </label>
             <div className="time-slot-grid">
-              {TIME_SLOTS.map((slot) => (
-                <div
-                  key={slot}
-                  className={`time-slot-pill ${preferredTimeSlot === slot ? 'selected' : ''}`}
-                  onClick={() => setPreferredTimeSlot(slot)}
-                >
-                  {slot.replace(' - ', '\n')}
-                </div>
-              ))}
+              {!preferredDate ? (
+                <p>Please select a date first</p>
+              ) : availableSlots.length === 0 ? (
+                <p>No slots available for this day</p>
+              ) : (
+                availableSlots.map((slot) => (
+                  <div
+                    key={slot}
+                    className={`time-slot-pill ${preferredTimeSlot === slot ? 'selected' : ''
+                      }`}
+                    onClick={() => setPreferredTimeSlot(slot)}
+                  >
+                    {slot}
+                  </div>
+                ))
+              )}
             </div>
           </div>
 
