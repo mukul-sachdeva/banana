@@ -1,4 +1,3 @@
-import React from 'react';
 import { BookingResponse } from '../types';
 import { Check, Clipboard, Calendar, Clock, Car } from 'lucide-react';
 
@@ -9,7 +8,7 @@ interface ConfirmationProps {
 }
 
 export default function Confirmation({ bookingDetails, onBookAnother, onViewDashboard }: ConfirmationProps) {
-  
+
   const handleCopyId = () => {
     navigator.clipboard.writeText(bookingDetails.bookingId);
     alert('Booking ID copied to clipboard!');
@@ -62,8 +61,8 @@ export default function Confirmation({ bookingDetails, onBookAnother, onViewDash
         <button className="back-home-btn" onClick={onBookAnother}>
           Book Another Drive
         </button>
-        <button 
-          className="select-car-btn" 
+        <button
+          className="select-car-btn"
           onClick={onViewDashboard}
           style={{ borderStyle: 'dashed' }}
         >

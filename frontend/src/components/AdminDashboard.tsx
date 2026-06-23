@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { BookingRecord } from '../types';
 import { getAdminBookings, updateBookingStatus } from '../api';
-import { RefreshCw, LayoutGrid, CheckCircle2, AlertCircle, XCircle, ShieldAlert, Key, ClipboardList, ShieldCheck } from 'lucide-react';
+import { RefreshCw, CheckCircle2, AlertCircle, ShieldAlert, Key, ClipboardList, ShieldCheck } from 'lucide-react';
 
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState<BookingRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Simple protection state
   const [passcode, setPasscode] = useState('');
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -46,14 +46,14 @@ export default function AdminDashboard() {
   const handleStatusChange = async (bookingId: number, currentStatus: string, newStatus: string) => {
     try {
       // Optimistic update
-      setBookings(prev => 
+      setBookings(prev =>
         prev.map(b => b.id === bookingId ? { ...b, status: newStatus as any } : b)
       );
       await updateBookingStatus(bookingId, newStatus);
     } catch (err: any) {
       alert(`Failed to update booking status: ${err.message}`);
       // Revert status
-      setBookings(prev => 
+      setBookings(prev =>
         prev.map(b => b.id === bookingId ? { ...b, status: currentStatus as any } : b)
       );
     }
@@ -73,15 +73,15 @@ export default function AdminDashboard() {
         </div>
         <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Admin Portal</h2>
         <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '2rem' }}>This page is protected. Enter the passcode to access the bookings.</p>
-        
+
         <form onSubmit={handleUnlock}>
           <div className="form-group" style={{ textAlign: 'left' }}>
             <label className="form-label">Admin Passcode</label>
-            <input 
-              type="password" 
-              className="form-input" 
-              placeholder="Enter passcode (banana)" 
-              value={passcode} 
+            <input
+              type="password"
+              className="form-input"
+              placeholder="Enter passcode (banana)"
+              value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
               required
             />

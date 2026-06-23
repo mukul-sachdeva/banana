@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Car } from '../types';
 import { getCars } from '../api';
 import { ShieldAlert, X } from 'lucide-react';
@@ -20,7 +20,7 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Selection Flow States
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -66,8 +66,8 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
         <ShieldAlert size={48} color="#ef4444" style={{ marginBottom: '1rem' }} />
         <h3 style={{ fontSize: '1.25rem', marginBottom: '0.5rem' }}>Failed to Load Brands</h3>
         <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '1.5rem' }}>{error}</p>
-        <button 
-          className="select-car-btn" 
+        <button
+          className="select-car-btn"
           onClick={() => window.location.reload()}
           style={{ width: 'auto', display: 'inline-block' }}
         >
@@ -91,9 +91,9 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
 
       <div className="brand-grid">
         {INITIAL_BRANDS.map((brand) => (
-          <div 
-            key={brand.name} 
-            className="brand-card" 
+          <div
+            key={brand.name}
+            className="brand-card"
             onClick={() => handleBrandClick(brand.name)}
           >
             <div className="brand-logo-circle">{brand.logo}</div>

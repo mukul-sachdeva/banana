@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import LandingPage from './components/LandingPage';
 import CarSelection from './components/CarSelection';
 import BookingForm from './components/BookingForm';
 import Confirmation from './components/Confirmation';
 import AdminDashboard from './components/AdminDashboard';
 import { Car, BookingResponse } from './types';
-import { Compass, UserCheck } from 'lucide-react';
+import { UserCheck } from 'lucide-react';
 
 type ViewState = 'landing' | 'cars' | 'booking' | 'confirmation' | 'admin';
 
@@ -48,15 +48,15 @@ export default function App() {
           <div className="logo-container" onClick={navigateToHome}>
             <span className="logo-text">FLOWZAP</span>
           </div>
-          
+
           <nav className="nav-links">
-            <button 
+            <button
               className={`nav-btn ${(view === 'cars' || view === 'booking' || view === 'confirmation') ? 'active' : ''}`}
               onClick={startBooking}
             >
               Book Drive
             </button>
-            <button 
+            <button
               className={`nav-btn admin-nav-btn ${view === 'admin' ? 'active' : ''}`}
               onClick={navigateToAdmin}
             >
@@ -69,32 +69,31 @@ export default function App() {
       {/* Main Content Area */}
       <main className="main-content">
         {view === 'landing' && (
-          <LandingPage 
-            onStartBooking={startBooking} 
-            onNavigateToAdmin={navigateToAdmin} 
+          <LandingPage
+            onStartBooking={startBooking}
           />
         )}
-        
+
         {view === 'cars' && (
           <CarSelection onSelectCar={handleCarSelect} />
         )}
-        
+
         {view === 'booking' && selectedCar && (
-          <BookingForm 
-            selectedCar={selectedCar} 
-            onBack={() => setView('cars')} 
-            onBookingSuccess={handleBookingSuccess} 
+          <BookingForm
+            selectedCar={selectedCar}
+            onBack={() => setView('cars')}
+            onBookingSuccess={handleBookingSuccess}
           />
         )}
-        
+
         {view === 'confirmation' && bookingResponse && (
-          <Confirmation 
-            bookingDetails={bookingResponse} 
-            onBookAnother={startBooking} 
-            onViewDashboard={navigateToAdmin} 
+          <Confirmation
+            bookingDetails={bookingResponse}
+            onBookAnother={startBooking}
+            onViewDashboard={navigateToAdmin}
           />
         )}
-        
+
         {view === 'admin' && (
           <AdminDashboard />
         )}
@@ -102,7 +101,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="footer">
-         <p>&copy; {new Date().getFullYear()} Flowzap Cars Inc. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Flowzap Cars Inc. All rights reserved.</p>
         <p style={{ marginTop: '0.25rem', fontSize: '0.75rem', opacity: 0.7 }}>
           Built with TypeScript &bull; Express &bull; PostgreSQL &bull; React &bull; Docker
         </p>

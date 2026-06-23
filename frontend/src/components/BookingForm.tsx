@@ -9,7 +9,7 @@ interface BookingFormProps {
   onBookingSuccess: (response: BookingResponse) => void;
 }
 
-const generateAvailableSlots = (selectedDate) => {
+const generateAvailableSlots = (selectedDate: string) => {
   const slots = [];
 
   const now = new Date();
