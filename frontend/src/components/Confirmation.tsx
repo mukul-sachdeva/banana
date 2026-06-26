@@ -87,7 +87,6 @@ export default function Confirmation({ bookingDetails, onBookAnother }: Confirma
     .detail-item { padding: 14px 16px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; }
     .detail-label { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
     .detail-value { font-size: 14px; font-weight: 600; color: #1e293b; }
-    .email-value { word-break: break-all; }
     .divider { border: none; border-top: 1px solid #e2e8f0; margin: 20px 0; }
     .footer {
       margin-top: 36px;
@@ -134,7 +133,7 @@ export default function Confirmation({ bookingDetails, onBookAnother }: Confirma
     ${bookingDetails.customerEmail ? `
     <div class="detail-item">
       <div class="detail-label">Email Address</div>
-      <div class="detail-value email value">${bookingDetails.customerEmail}</div>
+      <div class="detail-value">${bookingDetails.customerEmail}</div>
     </div>` : ''}
     ${bookingDetails.city ? `
     <div class="detail-item">
@@ -232,7 +231,7 @@ export default function Confirmation({ bookingDetails, onBookAnother }: Confirma
             <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <Mail size={16} /> Email
             </span>
-            <span className="conf-val">{bookingDetails.customerEmail}</span>
+            <span className="conf-val .conf-email">{bookingDetails.customerEmail}</span>
           </div>
         )}
 

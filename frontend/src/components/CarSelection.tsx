@@ -13,7 +13,8 @@ const INITIAL_BRANDS = [
   { name: 'Maruti Suzuki', logo: 'MS' },
   { name: 'Volkswagen', logo: 'VW' },
   { name: 'Hyundai', logo: 'H' },
-  { name: 'Honda', logo: 'H' }
+  { name: 'Honda', logo: 'H' },
+  { name: 'Tata', logo: 'T' }
 ];
 
 export default function CarSelection({ onSelectCar }: CarSelectionProps) {
