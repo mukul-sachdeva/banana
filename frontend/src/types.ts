@@ -24,6 +24,11 @@ export interface BookingResponse {
   preferredDate: string;
   preferredTimeSlot: string;
   message: string;
+  // Customer details merged from form state for the receipt (not from API)
+  customerName?: string;
+  customerPhone?: string;
+  customerEmail?: string;
+  city?: string;
 }
 
 export interface BookingRecord {

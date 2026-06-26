@@ -94,7 +94,14 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
     try {
       setSubmitting(true);
       const response = await createBooking(bookingPayload);
-      onBookingSuccess(response);
+      // Merge form data into the API response for the receipt — no backend change needed
+      onBookingSuccess({
+        ...response,
+        customerName: name.trim(),
+        customerPhone: phone.trim(),
+        customerEmail: email.trim() || undefined,
+        city,
+      });
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'An error occurred during booking. Please try again.');

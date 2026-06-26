@@ -19,7 +19,7 @@ export default function AdminDashboard() {
       setIsUnlocked(true);
       setAuthError('');
     } else {
-      setAuthError('Invalid passcode. Hint: Use "banana" or "admin123"');
+      setAuthError('Invalid passcode. Please try again.');
     }
   };
 
@@ -72,7 +72,7 @@ export default function AdminDashboard() {
           <Key size={30} />
         </div>
         <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Admin Portal</h2>
-        <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '2rem' }}>This page is protected. Enter the passcode to access the bookings.</p>
+        <p style={{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '2rem' }}>Enter administrator password to continue.</p>
 
         <form onSubmit={handleUnlock}>
           <div className="form-group" style={{ textAlign: 'left' }}>
@@ -80,7 +80,7 @@ export default function AdminDashboard() {
             <input
               type="password"
               className="form-input"
-              placeholder="Enter passcode (banana)"
+              placeholder="Enter administrator password"
               value={passcode}
               onChange={(e) => setPasscode(e.target.value)}
               required

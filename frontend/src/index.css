@@ -697,6 +697,28 @@ h1, h2, h3, h4 {
   background-color: var(--secondary-hover);
 }
 
+.download-receipt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: var(--success);
+  font-family: var(--font-primary);
+  font-weight: 600;
+  padding: 0.75rem 1.75rem;
+  border: 1.5px solid var(--success);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-size: 0.95rem;
+}
+
+.download-receipt-btn:hover {
+  background-color: var(--success);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+}
+
 /* Admin Dashboard */
 .admin-header-row {
   display: flex;
