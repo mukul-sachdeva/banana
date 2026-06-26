@@ -231,7 +231,7 @@ export default function Confirmation({ bookingDetails, onBookAnother }: Confirma
             <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <Mail size={16} /> Email
             </span>
-            <span className="conf-val .conf-email">{bookingDetails.customerEmail}</span>
+            <span className="conf-val conf-email">{bookingDetails.customerEmail}</span>
           </div>
         )}
 
