@@ -1,4 +1,4 @@
-import { Calendar, Shield, Zap, ArrowRight } from 'lucide-react';
+import { Calendar, Shield, Zap, ArrowRight, Check } from 'lucide-react';
 
 interface LandingPageProps {
   onStartBooking: () => void;
@@ -8,14 +8,30 @@ export default function LandingPage({ onStartBooking }: LandingPageProps) {
   return (
     <div className="landing-page">
       <section className="hero-section">
-        <div className="hero-tag">Flowzap Drive MVP</div>
-        <h1 className="hero-title">Book a Test Drive in Minutes</h1>
+        <div className="hero-tag">Flowzap Drive</div>
+        <h1 className="hero-title">Book a Test Drive at Your Home</h1>
+
+        <div className="hero-trust-badges">
+          <div className="trust-badge">
+            <Check size={16} strokeWidth={3} />
+            <span>Home Test Drive</span>
+          </div>
+          <div className="trust-badge">
+            <Check size={16} strokeWidth={3} />
+            <span>100% Free to Request</span>
+          </div>
+          <div className="trust-badge">
+            <Check size={16} strokeWidth={3} />
+            <span>Dealer Calls You to Confirm</span>
+          </div>
+        </div>
+
         <p className="hero-subtitle">
-          Experience your dream car today. Browse our selection of premium SUVs, pick your preferred date and time, and schedule your test drive instantly.
+          Skip dealership calls. Get a dealer to bring the car to you.
         </p>
 
         <button className="hero-cta-btn" onClick={onStartBooking}>
-          Book Test Drive <ArrowRight size={20} />
+          Book Free Test Drive <ArrowRight size={20} />
         </button>
 
         <div className="hero-features">

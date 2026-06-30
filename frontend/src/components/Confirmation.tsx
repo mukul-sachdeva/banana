@@ -1,6 +1,39 @@
+import { useEffect } from 'react';
 import jsPDF from 'jspdf';
 import { BookingResponse } from '../types';
 import { Check, Clipboard, Calendar, Clock, Car, Download, User, Phone, Mail, MapPin } from 'lucide-react';
+
+const playSuccessSound = () => {
+  try {
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContextClass) return;
+
+    const ctx = new AudioContextClass();
+    
+    const playTone = (freq: number, start: number, duration: number, volume: number) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, start);
+      
+      gain.gain.setValueAtTime(volume, start);
+      gain.gain.exponentialRampToValueAtTime(0.00001, start + duration);
+      
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      
+      osc.start(start);
+      osc.stop(start + duration);
+    };
+
+    const now = ctx.currentTime;
+    playTone(523.25, now, 0.35, 0.15);
+    playTone(783.99, now + 0.08, 0.5, 0.12);
+  } catch (e) {
+    console.warn('Browser audio policy blocked autoplay or failed to initialize:', e);
+  }
+};
 
 interface ConfirmationProps {
   bookingDetails: BookingResponse;
@@ -8,6 +41,10 @@ interface ConfirmationProps {
 }
 
 export default function Confirmation({ bookingDetails, onBookAnother }: ConfirmationProps) {
+  useEffect(() => {
+     window.scrollTo(0, 0);
+    playSuccessSound();
+  }, []);
 
   const handleCopyId = () => {
     navigator.clipboard.writeText(bookingDetails.bookingId);
@@ -173,81 +210,20 @@ export default function Confirmation({ bookingDetails, onBookAnother }: Confirma
 
   return (
     <div className="confirmation-card">
-      <div className="success-check-wrapper">
-        <Check size={40} strokeWidth={3} />
+      <div className="success-check-wrapper animated">
+        <Check size={40} strokeWidth={3} className="checkmark-icon" />
       </div>
 
-      <h1 className="conf-title">Request Submitted!</h1>
+      <h1 className="conf-title">Test Drive Request Submitted Successfully</h1>
       <p className="conf-subtitle">
-        {bookingDetails.message}
+        A dealership representative will contact you shortly to confirm your appointment.
       </p>
 
-      <div className="conf-details-box">
-        <div className="conf-detail-item">
-          <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <Clipboard size={16} /> Booking Reference
-          </span>
-          <span className="conf-val conf-booking-id" onClick={handleCopyId} style={{ cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-            {bookingDetails.bookingId} <span style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: 'normal' }}>(copy)</span>
-          </span>
-        </div>
-
-        {bookingDetails.customerName && (
-          <div className="conf-detail-item">
-            <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <User size={16} /> Customer Name
-            </span>
-            <span className="conf-val">{bookingDetails.customerName}</span>
-          </div>
-        )}
-
-        {bookingDetails.customerPhone && (
-          <div className="conf-detail-item">
-            <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <Phone size={16} /> Phone
-            </span>
-            <span className="conf-val">{bookingDetails.customerPhone}</span>
-          </div>
-        )}
-
-        {bookingDetails.customerEmail && (
-          <div className="conf-detail-item">
-            <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <Mail size={16} /> Email
-            </span>
-            <span className="conf-val conf-email">{bookingDetails.customerEmail}</span>
-          </div>
-        )}
-
-        {bookingDetails.city && (
-          <div className="conf-detail-item">
-            <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-              <MapPin size={16} /> Showroom City
-            </span>
-            <span className="conf-val">{bookingDetails.city}</span>
-          </div>
-        )}
-
-        <div className="conf-detail-item">
-          <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <Car size={16} /> Selected Vehicle
-          </span>
-          <span className="conf-val">{bookingDetails.carName}</span>
-        </div>
-
-        <div className="conf-detail-item">
-          <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <Calendar size={16} /> Chosen Date
-          </span>
-          <span className="conf-val">{bookingDetails.preferredDate}</span>
-        </div>
-
-        <div className="conf-detail-item">
-          <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <Clock size={16} /> Time Slot
-          </span>
-          <span className="conf-val">{bookingDetails.preferredTimeSlot}</span>
-        </div>
+      <div className="conf-ref-banner" onClick={handleCopyId} title="Click to copy reference ID">
+        <span className="ref-label">Booking Reference</span>
+        <span className="ref-value">
+          {bookingDetails.bookingId} <Clipboard size={14} className="copy-icon" />
+        </span>
       </div>
 
       <div className="conf-actions">
@@ -258,6 +234,70 @@ export default function Confirmation({ bookingDetails, onBookAnother }: Confirma
           <Download size={16} /> Download Receipt
         </button>
       </div>
+
+      <details className="conf-details-accordion">
+        <summary className="conf-details-summary">
+          <span>View Booking Details</span>
+        </summary>
+        <div className="conf-details-box">
+          {bookingDetails.customerName && (
+            <div className="conf-detail-item">
+              <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <User size={16} /> Customer Name
+              </span>
+              <span className="conf-val">{bookingDetails.customerName}</span>
+            </div>
+          )}
+
+          {bookingDetails.customerPhone && (
+            <div className="conf-detail-item">
+              <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Phone size={16} /> Phone
+              </span>
+              <span className="conf-val">{bookingDetails.customerPhone}</span>
+            </div>
+          )}
+
+          {bookingDetails.customerEmail && (
+            <div className="conf-detail-item">
+              <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <Mail size={16} /> Email
+              </span>
+              <span className="conf-val conf-email">{bookingDetails.customerEmail}</span>
+            </div>
+          )}
+
+          {bookingDetails.city && (
+            <div className="conf-detail-item">
+              <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                <MapPin size={16} /> Showroom City
+              </span>
+              <span className="conf-val">{bookingDetails.city}</span>
+            </div>
+          )}
+
+          <div className="conf-detail-item">
+            <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Car size={16} /> Selected Vehicle
+            </span>
+            <span className="conf-val">{bookingDetails.carName}</span>
+          </div>
+
+          <div className="conf-detail-item">
+            <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Calendar size={16} /> Chosen Date
+            </span>
+            <span className="conf-val">{bookingDetails.preferredDate}</span>
+          </div>
+
+          <div className="conf-detail-item">
+            <span className="conf-label" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <Clock size={16} /> Time Slot
+            </span>
+            <span className="conf-val">{bookingDetails.preferredTimeSlot}</span>
+          </div>
+        </div>
+      </details>
     </div>
   );
 }

@@ -169,6 +169,7 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
                   required
                 />
               </div>
+              <p className="form-field-hint">Your details are only used to schedule your test drive.</p>
             </div>
 
             <div className="form-group">
