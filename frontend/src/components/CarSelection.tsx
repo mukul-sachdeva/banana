@@ -128,11 +128,14 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
                 <X size={20} />
               </button>
             </div>
-            <div className="modal-body"  
-              style={{
-                maxHeight: "none",
-                overflowY: "visible"}}
-            >
+            <div className="modal-body" style={
+                selectedBrand === "__OTHER__"
+                  ? {
+                      maxHeight: "none",
+                      overflowY: "visible",
+                    }
+                  : undefined
+              }>
               {selectedBrand === "__OTHER__" ? (
                 <div
                   style={{
