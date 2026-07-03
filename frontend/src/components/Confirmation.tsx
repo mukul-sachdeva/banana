@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import jsPDF from 'jspdf';
 import { BookingResponse } from '../types';
 import { Check, Clipboard, Calendar, Clock, Car, Download, User, Phone, Mail, MapPin } from 'lucide-react';
+import { useSEO } from '../useSEO';
 
 const playSuccessSound = () => {
   try {
@@ -41,6 +42,11 @@ interface ConfirmationProps {
 }
 
 export default function Confirmation({ bookingDetails, onBookAnother }: ConfirmationProps) {
+  useSEO({
+    title: 'Test Drive Request Submitted Successfully | Flowzap',
+    description: 'Your test drive scheduling request has been successfully received by Flowzap.',
+  });
+
   useEffect(() => {
      window.scrollTo(0, 0);
     playSuccessSound();

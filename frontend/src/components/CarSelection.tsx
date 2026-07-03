@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Car } from '../types';
 import { getCars } from '../api';
 import { ShieldAlert, X } from 'lucide-react';
+import { useSEO } from '../useSEO';
 
 interface CarSelectionProps {
   onSelectCar: (car: Car) => void;
@@ -18,6 +19,10 @@ const INITIAL_BRANDS = [
 ];
 
 export default function CarSelection({ onSelectCar }: CarSelectionProps) {
+  useSEO({
+    title: 'Browse Vehicles | Flowzap',
+    description: 'Browse our premium vehicle fleet and select a car for your free home test drive request.',
+  });
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

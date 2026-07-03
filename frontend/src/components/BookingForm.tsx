@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Car, BookingRequest, BookingResponse } from '../types';
 import { createBooking } from '../api';
 import { Calendar, User, Phone, Mail, MapPin, Clock, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { useSEO } from '../useSEO';
 
 interface BookingFormProps {
   selectedCar: Car;
@@ -9,14 +10,45 @@ interface BookingFormProps {
   onBookingSuccess: (response: BookingResponse) => void;
 }
 
+const getLocalDateString = (d: Date) => {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const getEarliestSelectableSlot = () => {
+  const now = new Date();
+  const earliest = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+  const businessStart = new Date(earliest);
+  businessStart.setHours(9, 0, 0, 0);
+  const businessEnd = new Date(earliest);
+  businessEnd.setHours(17, 0, 0, 0); // 5:00 PM is start of last slot (5pm-6pm)
+
+  if (earliest <= businessStart) {
+    return businessStart;
+  }
+
+  if (earliest > businessEnd) {
+    const nextDay = new Date(businessStart);
+    nextDay.setDate(nextDay.getDate() + 1);
+    return nextDay;
+  }
+
+  return earliest;
+};
+
 const generateAvailableSlots = (selectedDate: string) => {
   const slots = [];
-
   const now = new Date();
-  const selected = new Date(selectedDate);
+  const earliestAllowed = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
-  const isToday =
-    selected.toDateString() === now.toDateString();
+  // Parse YYYY-MM-DD locally to avoid UTC conversion shifts
+  const parts = selectedDate.split('-');
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const day = parseInt(parts[2], 10);
+  const selected = new Date(year, month, day);
 
   for (let hour = 9; hour < 18; hour++) {
     const slotStart = new Date(selected);
@@ -25,8 +57,11 @@ const generateAvailableSlots = (selectedDate: string) => {
     const slotEnd = new Date(selected);
     slotEnd.setHours(hour + 1, 0, 0, 0);
 
-    // Skip slots already passed for today
-    if (isToday && slotStart <= now) {
+    if (slotStart < earliestAllowed) {
+      continue;
+    }
+
+    if (slotStart <= now) {
       continue;
     }
 
@@ -53,6 +88,11 @@ const CITIES = [
 ];
 
 export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: BookingFormProps) {
+  useSEO({
+    title: `Book Test Drive: ${selectedCar.brand} ${selectedCar.name} | Flowzap`,
+    description: `Schedule a free home test drive for the ${selectedCar.brand} ${selectedCar.name}. Choose your date and time slot.`,
+  });
+
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
@@ -67,8 +107,7 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
     ? generateAvailableSlots(preferredDate)
     : [];
 
-  // Today's date in YYYY-MM-DD format for input "min" attribute
-  const todayStr = new Date().toISOString().split('T')[0];
+  const minSelectableDate = getLocalDateString(getEarliestSelectableSlot());
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,6 +119,28 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
     if (!city) return setError('Please select a showroom city.');
     if (!preferredDate) return setError('Please select a preferred test drive date.');
     if (!preferredTimeSlot) return setError('Please select a time slot.');
+
+    // Validate 24-hour buffer in local timezone on submission
+    const parts = preferredDate.split('-');
+    const yr = parseInt(parts[0], 10);
+    const mo = parseInt(parts[1], 10) - 1;
+    const dy = parseInt(parts[2], 10);
+    const selectedDateTime = new Date(yr, mo, dy);
+    
+    const match = preferredTimeSlot.match(/^(\d+):(\d+)\s*(AM|PM)/i);
+    if (match) {
+      let hr = parseInt(match[1], 10);
+      const min = parseInt(match[2], 10);
+      const ampm = match[3].toUpperCase();
+      if (ampm === 'PM' && hr < 12) hr += 12;
+      if (ampm === 'AM' && hr === 12) hr = 0;
+      selectedDateTime.setHours(hr, min, 0, 0);
+    }
+    
+    const diffMs = selectedDateTime.getTime() - Date.now();
+    if (diffMs < 24 * 60 * 60 * 1000) {
+      return setError('Selected test drive slot must be at least 24 hours in the future.');
+    }
 
     const bookingPayload: BookingRequest = {
       name: name.trim(),
@@ -94,7 +155,6 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
     try {
       setSubmitting(true);
       const response = await createBooking(bookingPayload);
-      // Merge form data into the API response for the receipt — no backend change needed
       onBookingSuccess({
         ...response,
         customerName: name.trim(),
@@ -227,7 +287,7 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
                 <input
                   id="date"
                   type="date"
-                  min={todayStr}
+                  min={minSelectableDate}
                   className="form-input"
                   style={{ paddingLeft: '38px' }}
                   value={preferredDate}

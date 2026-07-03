@@ -1,10 +1,40 @@
 import { Calendar, Shield, Zap, ArrowRight, Check } from 'lucide-react';
+import { useSEO } from '../useSEO';
 
 interface LandingPageProps {
   onStartBooking: () => void;
 }
 
 export default function LandingPage({ onStartBooking }: LandingPageProps) {
+  useSEO({
+    title: 'Flowzap - Book a Test Drive at Your Home',
+    description: 'Skip dealership calls. Get a dealer to bring the car to you. Book a free home test drive in 60 seconds with Flowzap.',
+    schema: {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://flowzap.co.in/#organization",
+          "name": "Flowzap",
+          "url": "https://flowzap.co.in",
+          "email": "support@flowzap.co.in",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://flowzap.co.in/apple-touch-icon.png"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://flowzap.co.in/#website",
+          "url": "https://flowzap.co.in",
+          "name": "Flowzap",
+          "publisher": {
+            "@id": "https://flowzap.co.in/#organization"
+          }
+        }
+      ]
+    }
+  });
   return (
     <div className="landing-page">
       <section className="hero-section">
