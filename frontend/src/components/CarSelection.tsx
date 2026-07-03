@@ -15,7 +15,13 @@ const INITIAL_BRANDS = [
   { name: 'Volkswagen', logo: 'VW' },
   { name: 'Hyundai', logo: 'H' },
   { name: 'Honda', logo: 'H' },
-  { name: 'Tata', logo: 'T' }
+  { name: 'Tata', logo: 'T' },
+  { name: 'MG', logo: 'MG' },
+  { name: 'Kia', logo: 'K' },
+  {
+    name: "Can't Find Your Car?",
+    logo: '+'
+  }
 ];
 
 export default function CarSelection({ onSelectCar }: CarSelectionProps) {
@@ -48,7 +54,11 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
   }, []);
 
   const handleBrandClick = (brandName: string) => {
-    setSelectedBrand(brandName);
+    if (brandName === "Can't Find Your Car?") {
+      setSelectedBrand("__OTHER__");
+    } else {
+      setSelectedBrand(brandName);
+    }
     setIsModalOpen(true);
   };
 
@@ -113,13 +123,61 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
         <div className="modal-overlay" onClick={handleCloseModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Select {selectedBrand} Vehicle</h3>
+              <h3>{selectedBrand === '__OTHER__' ? "Looking for another car?" : `Select ${selectedBrand} Vehicle`}</h3>
               <button className="modal-close" onClick={handleCloseModal}>
                 <X size={20} />
               </button>
             </div>
-            <div className="modal-body">
-              {filteredCars.length > 0 ? (
+            <div className="modal-body"  
+              style={{
+                maxHeight: "none",
+                overflowY: "visible"}}
+            >
+              {selectedBrand === "__OTHER__" ? (
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "2rem 1rem",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                    alignItems: "center",
+                  }}
+                >
+                  <p
+                    style={{
+                      color: "var(--text-muted)",
+                      lineHeight: 1.7,
+                      maxWidth: "420px",
+                    }}
+                  >
+                    Don't see the vehicle you're looking for?
+                    <br />
+                    <br />
+                    We're continuously expanding our catalogue based on customer requests.
+                    <br />
+                    <br />
+                    Tell us the make and model you're interested in, and we'll work with our dealership partners to arrange a Free Home Test Drive whenever possible.
+                  </p>
+
+                  <a
+                    href="mailto:support@flowzap.co.in?subject=Vehicle%20Request"
+                    className="select-car-btn"
+                    style={{
+                      textDecoration: "none",
+                      width: "fit-content",
+                      padding: "0.8rem 1.5rem",
+                    }}
+                  >
+                    Email Your Request
+                  </a>
+                  <p style={{
+                    fontSize: "0.7rem",
+                    color: "var(--text-muted)",
+                    margin: 0,
+                  }}>Questions? <a href="mailto:support@flowzap.co.in">support@flowzap.co.in</a></p>
+                </div>
+              ) : filteredCars.length > 0 ? (
                 <div className="vehicle-option-list">
                   {filteredCars.map((car) => (
                     <div
@@ -135,8 +193,26 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
                   ))}
                 </div>
               ) : (
-                <div style={{ textAlign: 'center', padding: '2rem 1rem', color: 'var(--text-muted)' }}>
-                  <p>No vehicles available for test drive under this brand currently.</p>
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "2rem 1rem",
+                    color: "var(--text-muted)",
+                  }}
+                >
+                  <p>No vehicles available for this brand currently.</p>
+
+                  <a
+                    href="mailto:support@flowzap.co.in?subject=Vehicle%20Availability"
+                    className="select-car-btn"
+                    style={{
+                      marginTop: "1rem",
+                      display: "inline-block",
+                      textDecoration: "none",
+                    }}
+                  >
+                    Contact Support
+                  </a>
                 </div>
               )}
             </div>
