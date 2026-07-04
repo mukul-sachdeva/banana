@@ -3,6 +3,8 @@ import { Car } from '../types';
 import { getCars } from '../api';
 import { ShieldAlert, X } from 'lucide-react';
 import { useSEO } from '../useSEO';
+import { trackEvent } from '../analytics/analytics';
+import { EVENTS } from '../analytics/constants';
 
 interface CarSelectionProps {
   onSelectCar: (car: Car) => void;
@@ -56,8 +58,10 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
   const handleBrandClick = (brandName: string) => {
     if (brandName === "Can't Find Your Car?") {
       setSelectedBrand("__OTHER__");
+      void trackEvent(EVENTS.OTHER_VEHICLE_CLICKED, { brand: brandName });
     } else {
       setSelectedBrand(brandName);
+      void trackEvent(EVENTS.BRAND_SELECTED, { brand: brandName });
     }
     setIsModalOpen(true);
   };
@@ -166,6 +170,9 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
                   <a
                     href="mailto:support@flowzap.co.in?subject=Vehicle%20Request"
                     className="select-car-btn"
+                    onClick={() => {
+                      void trackEvent(EVENTS.VEHICLE_REQUEST_EMAIL_CLICKED, { brand: 'other' });
+                    }}
                     style={{
                       textDecoration: "none",
                       width: "fit-content",
@@ -187,6 +194,7 @@ export default function CarSelection({ onSelectCar }: CarSelectionProps) {
                       key={car.id}
                       className="vehicle-option-item"
                       onClick={() => {
+                        void trackEvent(EVENTS.VEHICLE_SELECTED, { brand: selectedBrand || car.brand, vehicle: car.name });
                         onSelectCar(car);
                         handleCloseModal();
                       }}

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Car, BookingRequest, BookingResponse } from '../types';
 import { createBooking } from '../api';
 import { Calendar, User, Phone, Mail, MapPin, Clock, ArrowLeft, ShieldCheck } from 'lucide-react';
 import { useSEO } from '../useSEO';
+import { trackEvent } from '../analytics/analytics';
+import { EVENTS } from '../analytics/constants';
 
 interface BookingFormProps {
   selectedCar: Car;
@@ -102,6 +104,17 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const hasTrackedFormStart = useRef(false);
+
+  useEffect(() => {
+    if (!hasTrackedFormStart.current) {
+      hasTrackedFormStart.current = true;
+      void trackEvent(EVENTS.BOOKING_FORM_STARTED, {
+        brand: selectedCar.brand,
+        vehicle: selectedCar.name,
+      });
+    }
+  }, [selectedCar.brand, selectedCar.id, selectedCar.name]);
 
   const availableSlots = preferredDate
     ? generateAvailableSlots(preferredDate)
@@ -154,7 +167,18 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
 
     try {
       setSubmitting(true);
+      void trackEvent(EVENTS.BOOKING_SUBMITTED, {
+        brand: selectedCar.brand,
+        vehicle: selectedCar.name,
+        city,
+      });
       const response = await createBooking(bookingPayload);
+      void trackEvent(EVENTS.BOOKING_SUCCESS, {
+        bookingId: response.bookingId,
+        brand: selectedCar.brand,
+        vehicle: selectedCar.name,
+        city,
+      });
       onBookingSuccess({
         ...response,
         customerName: name.trim(),
@@ -164,6 +188,10 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
       });
     } catch (err: any) {
       console.error(err);
+      void trackEvent(EVENTS.BOOKING_FAILED, {
+        error: err?.message || 'An error occurred during booking. Please try again.',
+        statusCode: err?.status || 'unknown',
+      });
       setError(err.message || 'An error occurred during booking. Please try again.');
     } finally {
       setSubmitting(false);
@@ -267,7 +295,19 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
                   className="form-input"
                   style={{ paddingLeft: '38px', appearance: 'none' }}
                   value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  onChange={(e) => {
+                    setCity(e.target.value);
+                    void trackEvent(EVENTS.BOOKING_CITY_SELECTED, {
+                      city: e.target.value,
+                      brand: selectedCar.brand,
+                      vehicle: selectedCar.name,
+                    });
+                    void trackEvent(EVENTS.BOOKING_SHOWROOM_SELECTED, {
+                      city: e.target.value,
+                      brand: selectedCar.brand,
+                      vehicle: selectedCar.name,
+                    });
+                  }}
                   required
                 >
                   <option value="">Choose Showroom Location</option>
@@ -294,6 +334,12 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
                   onChange={(e) => {
                     setPreferredDate(e.target.value);
                     setPreferredTimeSlot('');
+                    void trackEvent(EVENTS.BOOKING_DATE_SELECTED, {
+                      brand: selectedCar.brand,
+                      vehicle: selectedCar.name,
+                      city,
+                      preferredDate: e.target.value,
+                    });
                   }}
                   required
                 />
@@ -316,7 +362,16 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
                     key={slot}
                     className={`time-slot-pill ${preferredTimeSlot === slot ? 'selected' : ''
                       }`}
-                    onClick={() => setPreferredTimeSlot(slot)}
+                    onClick={() => {
+                      setPreferredTimeSlot(slot);
+                      void trackEvent(EVENTS.BOOKING_TIME_SELECTED, {
+                        brand: selectedCar.brand,
+                        vehicle: selectedCar.name,
+                        city,
+                        preferredDate,
+                        preferredTimeSlot: slot,
+                      });
+                    }}
                   >
                     {slot}
                   </div>

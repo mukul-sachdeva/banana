@@ -10,6 +10,8 @@ import PrivacyPage from './components/PrivacyPage';
 import TermsPage from './components/TermsPage';
 import NotFoundPage from './components/NotFoundPage';
 import { Car, BookingResponse } from './types';
+import { trackEvent } from './analytics/analytics';
+import { EVENTS } from './analytics/constants';
 
 function CustomerApp() {
   const navigate = useNavigate();
@@ -17,6 +19,10 @@ function CustomerApp() {
 
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
   const [bookingResponse, setBookingResponse] = useState<BookingResponse | null>(null);
+
+  useEffect(() => {
+    void trackEvent(EVENTS.PAGE_VIEW, { pathname: location.pathname });
+  }, [location.pathname]);
 
   // Synchronize router paths with SPA states for backward/forward navigation
   useEffect(() => {
@@ -114,14 +120,14 @@ function CustomerApp() {
       <footer className="footer">
         <p>&copy; 2026 Flowzap</p>
         <p className="footer-contact" style={{ marginTop: '0.25rem' }}>
-          Questions? <a href="mailto:support@flowzap.co.in" className="footer-link">support@flowzap.co.in</a>
+          Questions? <a href="mailto:support@flowzap.co.in" className="footer-link" onClick={() => { void trackEvent(EVENTS.FOOTER_EMAIL_CLICKED, { source: 'footer' }); }}>support@flowzap.co.in</a>
         </p>
         <p className="footer-links" style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', justifyContent: 'center', alignItems: 'center' }}>
-          <Link to="/about" className="footer-link">About</Link>
+          <Link to="/about" className="footer-link" onClick={() => { void trackEvent(EVENTS.ABOUT_OPENED, { source: 'footer' }); }}>About</Link>
           <span style={{ opacity: 0.5 }}>•</span>
-          <Link to="/privacy" className="footer-link">Privacy Policy</Link>
+          <Link to="/privacy" className="footer-link" onClick={() => { void trackEvent(EVENTS.PRIVACY_OPENED, { source: 'footer' }); }}>Privacy Policy</Link>
           <span style={{ opacity: 0.5 }}>•</span>
-          <Link to="/terms" className="footer-link">Terms & Conditions</Link>
+          <Link to="/terms" className="footer-link" onClick={() => { void trackEvent(EVENTS.TERMS_OPENED, { source: 'footer' }); }}>Terms & Conditions</Link>
         </p>
       </footer>
     </div>

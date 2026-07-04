@@ -1,5 +1,7 @@
 import { Calendar, Shield, Zap, ArrowRight, Check } from 'lucide-react';
 import { useSEO } from '../useSEO';
+import { trackEvent } from '../analytics/analytics';
+import { EVENTS } from '../analytics/constants';
 
 interface LandingPageProps {
   onStartBooking: () => void;
@@ -60,7 +62,13 @@ export default function LandingPage({ onStartBooking }: LandingPageProps) {
           Skip dealership calls. Get a dealer to bring the car to you.
         </p>
 
-        <button className="hero-cta-btn" onClick={onStartBooking}>
+        <button
+          className="hero-cta-btn"
+          onClick={() => {
+            void trackEvent(EVENTS.BOOK_DRIVE_CLICKED, { source: 'hero' });
+            onStartBooking();
+          }}
+        >
           Book Free Test Drive <ArrowRight size={20} />
         </button>
 
