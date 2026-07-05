@@ -84,7 +84,7 @@ function CustomerApp() {
       {/* Main Content Area */}
       <main className="main-content">
         <Routes>
-          <Route path="/" element={<LandingPage onStartBooking={startBooking} />} />
+          <Route path="/" element={<LandingPage onStartBooking={startBooking} onCarSelect={handleCarSelect} />} />
           <Route
             path="/book"
             element={

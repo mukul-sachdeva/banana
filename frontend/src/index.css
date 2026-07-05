@@ -166,9 +166,15 @@ h4 {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 5rem 1rem 6rem;
+  padding: 3rem 1rem 4rem;
   max-width: 800px;
   margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .hero-section {
+    padding: 5rem 1rem 5rem;
+  }
 }
 
 .hero-tag {
@@ -211,7 +217,7 @@ h4 {
   background-color: var(--secondary);
   color: var(--text-inverse);
   font-family: var(--font-primary);
-  font-size: 1.1rem;
+  font-size: 1.0rem;
   font-weight: 600;
   padding: 1rem 2.25rem;
   border: none;
@@ -1505,5 +1511,476 @@ h4 {
   }
   .content-page h1 {
     font-size: 1.75rem;
+  }
+}
+
+/* ============================================
+   HERO SEARCH BAR
+   ============================================ */
+.hero-search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  margin-bottom: 1.5rem;
+  animation: slideUp 1.1s ease-out;
+}
+
+.hero-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+  box-shadow: var(--shadow-md);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.hero-search-bar:focus-within {
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1), var(--shadow-md);
+}
+
+.hero-search-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.hero-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+  color: var(--text-main);
+  background: transparent;
+  min-width: 0;
+}
+
+.hero-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.hero-search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.2rem;
+  border-radius: 50%;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.hero-search-clear:hover {
+  color: var(--primary);
+  background: var(--bg-card-hover);
+}
+
+.hero-search-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  overflow: hidden;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.hero-search-result {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.1rem;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.hero-search-result:last-child {
+  border-bottom: none;
+}
+
+.hero-search-result:hover {
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.search-result-brand {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.search-result-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--primary);
+  flex: 1;
+}
+
+.search-result-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.hero-search-result:hover .search-result-arrow {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+.hero-search-empty {
+  padding: 1rem 1.1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+/* ============================================
+   BRAND PILLS
+   ============================================ */
+.hero-brand-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  max-width: 620px;
+  animation: slideUp 1.3s ease-out;
+}
+
+.brand-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-family: var(--font-secondary);
+  border: 1px solid var(--border-color);
+  background: #fff;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
+  white-space: nowrap;
+}
+
+.brand-pill:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background: rgba(37, 99, 235, 0.04);
+  transform: translateY(-1px);
+}
+
+.brand-pill--catalog {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  font-weight: 600;
+}
+
+.brand-pill--catalog:hover {
+  background: var(--primary-hover);
+  color: #fff;
+  border-color: var(--primary-hover);
+}
+
+/* ============================================
+   POPULAR CARS SECTION
+   ============================================ */
+.popular-cars-section {
+  padding: 3rem 1rem 3.5rem;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  margin-top: 1rem;
+}
+
+.popular-cars-title {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.popular-cars-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.popular-cars-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .popular-cars-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+.popular-car-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.popular-car-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(37, 99, 235, 0.3);
+  box-shadow: var(--shadow-md);
+}
+
+.popular-car-card:active {
+  transform: translateY(-1px);
+}
+
+.popular-car-img-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--bg-card-hover);
+}
+
+.popular-car-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.popular-car-card:hover .popular-car-img {
+  transform: scale(1.05);
+}
+
+.popular-car-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.75rem 0.85rem;
+  gap: 0.15rem;
+}
+
+.popular-car-brand {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.popular-car-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary);
+  font-family: var(--font-primary);
+}
+
+.popular-cars-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding: 0.75rem 1.75rem;
+  background: none;
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast), background var(--transition-fast);
+}
+
+.popular-cars-view-all:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background: rgba(37, 99, 235, 0.04);
+}
+
+@media (max-width: 600px) {
+  .popular-cars-section {
+    padding: 2.5rem 1rem 3rem;
+  }
+
+  .popular-car-info {
+    padding: 0.6rem 0.7rem;
+  }
+
+  .popular-car-name {
+    font-size: 0.88rem;
+  }
+}
+
+/* ============================================
+   HOW IT WORKS
+   ============================================ */
+.how-it-works {
+  padding: 3rem 1rem 4rem;
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  margin-top: 1rem;
+}
+
+.hiw-title {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.hiw-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+}
+
+.hiw-steps {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hiw-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 120px;
+  max-width: 160px;
+  position: relative;
+  padding: 0 0.5rem;
+}
+
+.hiw-step-number {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--secondary);
+  color: #fff;
+  font-family: var(--font-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.hiw-step-connector {
+  position: absolute;
+  top: 22px;
+  left: calc(50% + 22px);
+  width: calc(100% - 44px);
+  height: 2px;
+  background: var(--border-color);
+  z-index: 0;
+}
+
+.hiw-step-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-main);
+  line-height: 1.35;
+  text-align: center;
+}
+
+/* Mobile How It Works — vertical stack */
+@media (max-width: 600px) {
+  .hiw-steps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding-left: 1rem;
+  }
+
+  .hiw-step {
+    flex-direction: row;
+    align-items: flex-start;
+    min-width: unset;
+    max-width: unset;
+    width: 100%;
+    padding: 0 0 1.5rem 0;
+    gap: 1rem;
+    position: relative;
+  }
+
+  .hiw-step-connector {
+    position: absolute;
+    top: 44px;
+    left: 21px;
+    width: 2px;
+    height: calc(100% - 22px);
+    background: var(--border-color);
+  }
+
+  .hiw-step-number {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .hiw-step-label {
+    text-align: left;
+    padding-top: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .hiw-steps .hiw-step:last-child {
+    padding-bottom: 0;
+  }
+
+  /* Mobile hero typography */
+  .hero-title {
+    font-size: 2.25rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-cta-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .hero-search-wrapper {
+    max-width: 100%;
   }
 }
