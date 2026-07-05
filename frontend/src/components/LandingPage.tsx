@@ -80,7 +80,11 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
 
   // Fetch car data once on mount for the search bar
   useEffect(() => {
-    getCars().then(setCars).catch(() => {});
+    getCars()
+      .then(setCars)
+      .catch((err) => {
+        console.warn('[LandingPage] getCars failed', err);
+      });
   }, []);
 
   // Filter results whenever query changes
@@ -124,7 +128,19 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
   const featuredCars = FEATURED_CARS_CONFIG
     .map((fc) => {
       const car = cars.find((c) => c.name.toLowerCase() === fc.name.toLowerCase());
-      return car ? { ...car, localImage: fc.image } : null;
+      if (car) return { ...car, localImage: fc.image };
+
+      // Fallback: create a lightweight local-only car so featured grid still renders
+      return {
+        id: `local-${fc.name}`,
+        name: fc.name,
+        brand: '',
+        transmission: '',
+        fuel_type: '',
+        price_range: '',
+        image_url: '',
+        localImage: fc.image,
+      } as unknown as Car & { localImage: string };
     })
     .filter(Boolean) as (Car & { localImage: string })[];
 
