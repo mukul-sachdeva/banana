@@ -196,7 +196,7 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
         <section className="popular-cars-section popular-cars-top">
           <h2 className="popular-cars-title">Popular Cars</h2>
           <p className="popular-cars-subtitle">
-            Start with India's most popular cars available for a free home test drive.
+            Start with India's most popular cars. Every model is available for a free home or dealership test drive.
           </p>
           <div className="popular-cars-grid">
             {featuredCars.map((car) => (
@@ -255,7 +255,7 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
 
         {/* Primary CTA */}
         <button className="hero-cta-btn" onClick={handleCTAClick}>
-          Browse Available Cars <ArrowRight size={20} />
+          Book your Test Drive <ArrowRight size={20} />
         </button>
       </section>
 
