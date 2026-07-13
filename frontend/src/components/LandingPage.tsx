@@ -11,18 +11,6 @@ interface LandingPageProps {
   onCarSelect?: (car: Car) => void;
 }
 
-const BRAND_PILLS = [
-  '50+ Popular Cars',
-  'Maruti Suzuki',
-  'Hyundai',
-  'Mahindra',
-  'Tata',
-  'Kia',
-  'Honda',
-  'Toyota',
-  'Volkswagen',
-  'MG'
-];
 
 const FEATURED_CARS_CONFIG = [
   { name: 'Creta',  image: '/cars/creta.jpg' },
@@ -149,47 +137,13 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
     onStartBooking();
   };
 
-  const handleBrandPillClick = (brand: string) => {
-    if (brand === '50+ Popular Cars') {
-      void trackEvent(EVENTS.BOOK_DRIVE_CLICKED, { source: 'hero_pill_catalog' });
-      onStartBooking();
-    } else {
-      void trackEvent(EVENTS.BRAND_SELECTED, { source: 'hero_pill', brand });
-      setQuery(brand);
-    }
-  };
+
 
   return (
     <div className="landing-page">
-      <section className="hero-section">
-
-        {/* Hero tag — directs to action, not trust */}
-        <div className="hero-tag">Browse 50+ Popular Cars</div>
-
-        <h1 className="hero-title">Your next car isn't chosen online.<br />It's chosen behind the wheel.</h1>
-
-        {/* Existing benefit pills — kept as-is */}
-        <div className="hero-trust-badges">
-          <div className="trust-badge">
-            <Check size={16} strokeWidth={3} />
-            <span>Home Test Drive</span>
-          </div>
-          <div className="trust-badge">
-            <Check size={16} strokeWidth={3} />
-            <span>100% Free to Request</span>
-          </div>
-          <div className="trust-badge">
-            <Check size={16} strokeWidth={3} />
-            <span>Dealership Calls You to Confirm</span>
-          </div>
-        </div>
-
-        <p className="hero-subtitle">
-          Compare cars the only way that matters. Book a free home or dealership test drive in under one minute.
-        </p>
-
-        {/* Search bar */}
-        <div className="hero-search-wrapper" ref={searchRef}>
+      {/* Search Bar Section at the very top */}
+      <section className="search-section">
+        <div className="hero-search-wrapper" ref={searchRef} style={{ marginBottom: 0 }}>
           <div className="hero-search-bar">
             <Search size={18} className="hero-search-icon" />
             <input
@@ -235,29 +189,11 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
             </div>
           )}
         </div>
-
-        {/* Primary CTA */}
-        <button className="hero-cta-btn" onClick={handleCTAClick}>
-          Browse Available Cars <ArrowRight size={20} />
-        </button>
-
-        {/* Brand pills row — answers "do they have my car?" */}
-        <div className="hero-brand-pills">
-          {BRAND_PILLS.map((b) => (
-            <button
-              key={b}
-              className={`brand-pill${b === '50+ Popular Cars' ? ' brand-pill--catalog' : ''}`}
-              onClick={() => handleBrandPillClick(b)}
-            >
-              {b}
-            </button>
-          ))}
-        </div>
       </section>
 
-      {/* Popular Cars — quick access to top vehicles */}
+      {/* Popular Cars — quick access to top vehicles directly below search */}
       {featuredCars.length > 0 && (
-        <section className="popular-cars-section">
+        <section className="popular-cars-section popular-cars-top">
           <h2 className="popular-cars-title">Popular Cars</h2>
           <p className="popular-cars-subtitle">
             Start with India's most popular cars available for a free home test drive.
@@ -292,6 +228,36 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
           </button>
         </section>
       )}
+
+      {/* Hero Section in the Middle */}
+      <section className="hero-section hero-middle">
+        <h1 className="hero-title">Your next car isn't chosen online.<br />It's chosen behind the wheel.</h1>
+
+        {/* Existing benefit pills — kept as-is */}
+        <div className="hero-trust-badges">
+          <div className="trust-badge">
+            <Check size={16} strokeWidth={3} />
+            <span>Home Test Drive</span>
+          </div>
+          <div className="trust-badge">
+            <Check size={16} strokeWidth={3} />
+            <span>100% Free to Request</span>
+          </div>
+          <div className="trust-badge">
+            <Check size={16} strokeWidth={3} />
+            <span>Dealership Calls You to Confirm</span>
+          </div>
+        </div>
+
+        <p className="hero-subtitle">
+          Compare cars the only way that matters. Book a free home or dealership test drive in under one minute.
+        </p>
+
+        {/* Primary CTA */}
+        <button className="hero-cta-btn" onClick={handleCTAClick}>
+          Browse Available Cars <ArrowRight size={20} />
+        </button>
+      </section>
 
       {/* How It Works — replaces the duplicate info section */}
       <section className="how-it-works">
