@@ -44,7 +44,7 @@ const HOW_IT_WORKS = [
 export default function LandingPage({ onStartBooking, onCarSelect }: LandingPageProps) {
   useSEO({
     title: 'Flowzap - Book a Test Drive at Your Home',
-    description: 'Skip dealership calls. Get a dealer to bring the car to you. Book a free home test drive in 60 seconds with Flowzap.',
+    description: 'Your next car isn\'t chosen online. It\'s chosen behind the wheel. Book a free home or dealership test drive in under one minute with Flowzap.',
     schema: {
       "@context": "https://schema.org",
       "@graph": [
@@ -166,7 +166,7 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
         {/* Hero tag — directs to action, not trust */}
         <div className="hero-tag">Browse 50+ Popular Cars</div>
 
-        <h1 className="hero-title">Book a Test Drive at Your Home</h1>
+        <h1 className="hero-title">Your next car isn't chosen online.<br />It's chosen behind the wheel.</h1>
 
         {/* Existing benefit pills — kept as-is */}
         <div className="hero-trust-badges">
@@ -180,12 +180,12 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
           </div>
           <div className="trust-badge">
             <Check size={16} strokeWidth={3} />
-            <span>Dealer Calls You to Confirm</span>
+            <span>Dealership Calls You to Confirm</span>
           </div>
         </div>
 
         <p className="hero-subtitle">
-          Skip dealership calls. Get a dealer to bring the car to you.
+          Compare cars the only way that matters. Book a free home or dealership test drive in under one minute.
         </p>
 
         {/* Search bar */}
@@ -195,7 +195,7 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
             <input
               type="text"
               className="hero-search-input"
-              placeholder="Search your favourite car..."
+              placeholder="Search Creta, XUV700, Curvv...."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => query && setShowResults(true)}

@@ -9,9 +9,16 @@ import AboutPage from './components/AboutPage';
 import PrivacyPage from './components/PrivacyPage';
 import TermsPage from './components/TermsPage';
 import NotFoundPage from './components/NotFoundPage';
+import ArticlePage from './components/ArticlePage';
 import { Car, BookingResponse } from './types';
 import { trackEvent } from './analytics/analytics';
 import { EVENTS } from './analytics/constants';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 
 function CustomerApp() {
   const navigate = useNavigate();
@@ -112,6 +119,7 @@ function CustomerApp() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
+          <Route path="/blog/:slug" element={<ArticlePage onStartBooking={startBooking} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
@@ -129,6 +137,17 @@ function CustomerApp() {
           <span style={{ opacity: 0.5 }}>•</span>
           <Link to="/terms" className="footer-link" onClick={() => { void trackEvent(EVENTS.TERMS_OPENED, { source: 'footer' }); }}>Terms & Conditions</Link>
         </p>
+        <div className="footer-suggested">
+          <p className="footer-suggested-title">Suggested Pages</p>
+          <div className="footer-suggested-links">
+            <Link to="/blog/home-vs-dealer-test-drive" className="footer-link">Home vs Dealer Test Drive</Link>
+            <Link to="/blog/test-drive-checklist" className="footer-link">Test Drive Checklist</Link>
+            <Link to="/blog/best-suvs-under-20-lakhs" className="footer-link">Best SUVs Under ₹20L</Link>
+            <Link to="/blog/tata-curvv-vs-hyundai-creta" className="footer-link">Curvv vs Creta</Link>
+            <Link to="/blog/should-you-test-drive-multiple-cars" className="footer-link">Test Drive Multiple Cars?</Link>
+            <Link to="/blog/why-home-test-drives-save-time" className="footer-link">Home Test Drives Save Time</Link>
+          </div>
+        </div>
       </footer>
     </div>
   );
@@ -162,6 +181,7 @@ function AdminApp() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/admin" element={<AdminApp />} />
         <Route path="/*" element={<CustomerApp />} />
