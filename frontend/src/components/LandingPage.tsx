@@ -102,11 +102,15 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
   }, []);
 
   const handleCarSelect = (car: Car, source = 'hero_search') => {
-    void trackEvent(EVENTS.VEHICLE_SELECTED, { source, car_name: car.name, brand: car.brand });
+    // Lookup the complete car object in the existing database/API cars state by name
+    const dbCar = cars.find((c) => c.name.toLowerCase() === car.name.toLowerCase());
+    const finalCar = dbCar || car;
+
+    void trackEvent(EVENTS.VEHICLE_SELECTED, { source, car_name: finalCar.name, brand: finalCar.brand });
     setQuery('');
     setShowResults(false);
     if (onCarSelect) {
-      onCarSelect(car);
+      onCarSelect(finalCar);
     } else {
       onStartBooking();
     }
