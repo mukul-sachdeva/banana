@@ -236,15 +236,15 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
         {/* Existing benefit pills — kept as-is */}
         <div className="hero-trust-badges">
           <div className="trust-badge">
-            <Check size={16} strokeWidth={3} />
+            <Check size={16} strokeWidth={2} />
             <span>Home Test Drive</span>
           </div>
           <div className="trust-badge">
-            <Check size={16} strokeWidth={3} />
+            <Check size={16} strokeWidth={2} />
             <span>100% Free to Request</span>
           </div>
           <div className="trust-badge">
-            <Check size={16} strokeWidth={3} />
+            <Check size={16} strokeWidth={2} />
             <span>Dealership Calls You to Confirm</span>
           </div>
         </div>

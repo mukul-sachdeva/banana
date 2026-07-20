@@ -15,10 +15,10 @@
   --primary-hover: #1f2937;
   --primary-glow: rgba(17, 24, 39, 0.08);
 
-  --secondary: #2563eb;
-  /* Secondary: Modern Blue */
-  --secondary-hover: #1d4ed8;
-  --secondary-glow: rgba(37, 99, 235, 0.15);
+  --secondary: #16a34a;
+  /* Secondary: Brand Green */
+  --secondary-hover: #15803d;
+  --secondary-glow: rgba(22, 163, 74, 0.15);
 
   --text-main: #111827;
   /* Clean dark charcoal text */
@@ -29,7 +29,7 @@
   --success: #10b981;
   --success-glow: rgba(16, 185, 129, 0.1);
   --pending: #f59e0b;
-  --confirmed: #2563eb;
+  --confirmed: #16a34a;
   --completed: #10b981;
   --cancelled: #ef4444;
 
@@ -110,8 +110,18 @@ h4 {
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--primary);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  font-style: italic;
+}
+
+.logo-accent {
+  color: var(--secondary);
+}
+
+.logo-img {
+  height: 28px;
+  object-fit: contain;
+  display: block;
 }
 
 .nav-links {
@@ -1287,17 +1297,17 @@ h4 {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.85rem;
-  font-weight: 600;
-  color: #065f46;
-  background-color: #ecfdf5;
-  border: 1px solid #a7f3d0;
+  font-weight: 500;
+  color: #15803d; /* Reduced saturation dark green */
+  background-color: rgba(22, 163, 74, 0.04); /* Subtle green-tinted background */
+  border: 1px solid rgba(22, 163, 74, 0.08); /* Lighter green border */
   padding: 0.35rem 0.85rem;
   border-radius: 9999px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: none; /* No shadow */
 }
 
 .trust-badge svg {
-  color: #059669;
+  color: #16a34a; /* Muted brand green checkmark */
   flex-shrink: 0;
 }
 

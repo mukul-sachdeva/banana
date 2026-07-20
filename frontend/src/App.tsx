@@ -74,7 +74,8 @@ function CustomerApp() {
       <header className="header">
         <div className="header-content">
           <div className="logo-container" onClick={navigateToHome}>
-            <span className="logo-text">FLOWZAP</span>
+            <img src="/logo-mark.png" alt="Flowzap Logo" className="logo-img" />
+            <span className="logo-text">flow<span className="logo-accent">zap</span></span>
           </div>
 
           <nav className="nav-links">
@@ -161,7 +162,8 @@ function AdminApp() {
       <header className="header">
         <div className="header-content">
           <div className="logo-container" onClick={() => navigate('/')}>
-            <span className="logo-text">FLOWZAP</span>
+            <img src="/logo-mark.png" alt="Flowzap Logo" className="logo-img" />
+            <span className="logo-text">flow<span className="logo-accent">zap</span></span>
           </div>
         </div>
       </header>
