@@ -107,11 +107,11 @@ h4 {
 
 .logo-text {
   font-family: var(--font-primary);
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   font-weight: 800;
   color: var(--primary);
-  letter-spacing: -0.02em;
-  font-style: italic;
+  letter-spacing: -0.03em;
+  font-style: normal;
 }
 
 .logo-accent {
@@ -119,7 +119,8 @@ h4 {
 }
 
 .logo-img {
-  height: 28px;
+  height: 36px;
+  width: auto;
   object-fit: contain;
   display: block;
 }
