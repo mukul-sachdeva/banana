@@ -45,3 +45,38 @@ export interface BookingRecord {
   car_name: string;
   car_brand: string;
 }
+
+export interface CityRequestPayload {
+  city: string;
+  fullName?: string;
+  phone?: string;
+  email?: string;
+  interestedCars?: string[];
+  purchaseTimeline?: string;
+  source?: string;
+}
+
+export interface CityRequestResponse {
+  message: string;
+  requestId: number;
+  city: string;
+  createdAt: string;
+}
+
+export interface CityRequestStat {
+  city: string;
+  count: number;
+}
+
+export interface CityRequestRecord {
+  id: number;
+  city: string;
+  full_name: string | null;
+  phone: string | null;
+  email: string | null;
+  interested_cars: string[] | null;
+  purchase_timeline: string | null;
+  source: string;
+  created_at: string;
+}
+

@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import carRoutes from './routes/car';
 import bookingRoutes from './routes/booking';
+import cityRequestRoutes from './routes/cityRequest';
 import { initializeDatabase } from './db/init';
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(express.json());
 // API routing
 app.use('/api/cars', carRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/city-requests', cityRequestRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {

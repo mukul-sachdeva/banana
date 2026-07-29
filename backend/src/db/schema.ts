@@ -51,6 +51,19 @@ export const CREATE_CARS_TABLE = `
   );
 `;
 
+export interface CityRequestDb {
+  id: number;
+  city: string;
+  full_name: string | null;
+  phone: string | null;
+  email: string | null;
+  interested_cars: string[];
+  purchase_timeline: string | null;
+  source: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export const CREATE_BOOKINGS_TABLE = `
   CREATE TABLE IF NOT EXISTS bookings (
     id SERIAL PRIMARY KEY,
@@ -64,8 +77,25 @@ export const CREATE_BOOKINGS_TABLE = `
   );
 `;
 
+export const CREATE_CITY_REQUESTS_TABLE = `
+  CREATE TABLE IF NOT EXISTS city_requests (
+    id SERIAL PRIMARY KEY,
+    city VARCHAR(100) NOT NULL,
+    full_name VARCHAR(255),
+    phone VARCHAR(50),
+    email VARCHAR(255),
+    interested_cars JSONB DEFAULT '[]',
+    purchase_timeline VARCHAR(50),
+    source VARCHAR(50) DEFAULT 'website',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  );
+`;
+
 export const CREATE_ALL_TABLES = `
   ${CREATE_USERS_TABLE}
   ${CREATE_CARS_TABLE}
   ${CREATE_BOOKINGS_TABLE}
+  ${CREATE_CITY_REQUESTS_TABLE}
 `;
+

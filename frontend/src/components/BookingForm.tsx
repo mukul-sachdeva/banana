@@ -5,6 +5,7 @@ import { Calendar, User, Phone, Mail, MapPin, Clock, ArrowLeft, ShieldCheck } fr
 import { useSEO } from '../useSEO';
 import { trackEvent } from '../analytics/analytics';
 import { EVENTS } from '../analytics/constants';
+import CityRequestModal from './CityRequestModal';
 
 interface BookingFormProps {
   selectedCar: Car;
@@ -104,6 +105,7 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showCityModal, setShowCityModal] = useState(false);
   const hasTrackedFormStart = useRef(false);
 
   useEffect(() => {
@@ -316,6 +318,16 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
                   ))}
                 </select>
               </div>
+              <button
+                type="button"
+                className="city-request-trigger-btn"
+                onClick={() => {
+                  setShowCityModal(true);
+                  void trackEvent(EVENTS.CITY_REQUEST_MODAL_OPENED, { source: 'booking_form' });
+                }}
+              >
+                Not in Ludhiana? Request your city →
+              </button>
             </div>
 
             <div className="form-group">
@@ -433,6 +445,12 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
           </div>
         </div>
       </div>
+
+      <CityRequestModal
+        isOpen={showCityModal}
+        onClose={() => setShowCityModal(false)}
+        source="booking_form"
+      />
     </div>
   );
 }

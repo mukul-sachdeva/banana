@@ -1,4 +1,4 @@
-import { Car, BookingRequest, BookingResponse, BookingRecord } from './types';
+import { Car, BookingRequest, BookingResponse, BookingRecord, CityRequestPayload, CityRequestResponse, CityRequestStat, CityRequestRecord } from './types';
 
 // Use environment variable for API URL or fall back to window.location origin for relative paths/proxies
 const API_BASE = import.meta.env.VITE_API_URL || '';
@@ -52,3 +52,39 @@ export async function updateBookingStatus(id: number, status: string): Promise<{
   }
   return response.json();
 }
+
+export async function submitCityRequest(data: CityRequestPayload): Promise<CityRequestResponse> {
+  const response = await fetch(`${API_BASE}/api/city-requests`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Failed to submit city request.');
+  }
+  return response.json();
+}
+
+export async function getCityRequestStats(): Promise<CityRequestStat[]> {
+  const response = await fetch(`${API_BASE}/api/city-requests/admin/stats`);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Failed to retrieve city demand statistics.');
+  }
+  return response.json();
+}
+
+export async function getCityRequestList(city?: string): Promise<CityRequestRecord[]> {
+  const url = city ? `${API_BASE}/api/city-requests/admin/list?city=${encodeURIComponent(city)}` : `${API_BASE}/api/city-requests/admin/list`;
+  const response = await fetch(url);
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Failed to retrieve city request list.');
+  }
+  return response.json();
+}
+

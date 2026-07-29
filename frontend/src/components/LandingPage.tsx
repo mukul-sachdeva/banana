@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import { ArrowRight, Check, Search, X } from 'lucide-react';
+import { ArrowRight, Check, Search, X, MapPin } from 'lucide-react';
 import { useSEO } from '../useSEO';
 import { trackEvent } from '../analytics/analytics';
 import { EVENTS } from '../analytics/constants';
 import { getCars } from '../api';
 import { Car } from '../types';
+import CityRequestModal from './CityRequestModal';
 
 interface LandingPageProps {
   onStartBooking: () => void;
   onCarSelect?: (car: Car) => void;
 }
-
 
 const FEATURED_CARS_CONFIG = [
   { name: 'Creta',  image: '/cars/creta.jpg' },
@@ -64,6 +64,7 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
   const [cars, setCars] = useState<Car[]>([]);
   const [results, setResults] = useState<Car[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const [showCityModal, setShowCityModal] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
   // Fetch car data once on mount for the search bar
@@ -195,10 +196,29 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
         </div>
       </section>
 
+      {/* Prominent City Availability & Expansion Banner */}
+      <div className="city-availability-banner">
+        <div className="city-banner-left">
+          <span className="city-banner-live-badge">
+            <MapPin size={14} /> Currently Live in Ludhiana
+          </span>
+        </div>
+        <button
+          type="button"
+          className="city-banner-cta"
+          onClick={() => {
+            setShowCityModal(true);
+            void trackEvent(EVENTS.CITY_REQUEST_MODAL_OPENED, { source: 'homepage' });
+          }}
+        >
+          Not in Ludhiana? Request your city →
+        </button>
+      </div>
+
       {/* Popular Cars — quick access to top vehicles directly below search */}
       {featuredCars.length > 0 && (
         <section className="popular-cars-section popular-cars-top">
-          <h2 className="popular-cars-title">Popular Cars</h2>
+          <h2 className="popular-cars-title">What car would you like to experience today?</h2>
           <p className="popular-cars-subtitle">
             Start with India's most popular cars. Every model is available for a free home or dealership test drive.
           </p>
@@ -223,6 +243,9 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
                 <div className="popular-car-info">
                   <span className="popular-car-brand">{car.brand}</span>
                   <span className="popular-car-name">{car.name}</span>
+                  <span className="popular-car-action">
+                    Book test drive <ArrowRight size={14} />
+                  </span>
                 </div>
               </div>
             ))}
@@ -261,6 +284,20 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
         <button className="hero-cta-btn" onClick={handleCTAClick}>
           Book your Test Drive <ArrowRight size={20} />
         </button>
+
+        {/* City Request secondary CTA */}
+        <div style={{ marginTop: '1.25rem' }}>
+          <button
+            type="button"
+            className="city-request-trigger-btn"
+            onClick={() => {
+              setShowCityModal(true);
+              void trackEvent(EVENTS.CITY_REQUEST_MODAL_OPENED, { source: 'homepage' });
+            }}
+          >
+            Not in Ludhiana? Request your city →
+          </button>
+        </div>
       </section>
 
       {/* How It Works — replaces the duplicate info section */}
@@ -277,6 +314,12 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
           ))}
         </div>
       </section>
+
+      <CityRequestModal
+        isOpen={showCityModal}
+        onClose={() => setShowCityModal(false)}
+        source="homepage"
+      />
     </div>
   );
 }

@@ -17,6 +17,9 @@ export const EVENTS = {
   BOOKING_SUCCESS: 'booking_success',
   BOOKING_FAILED: 'booking_failed',
   FOOTER_EMAIL_CLICKED: 'footer_email_clicked',
+  CITY_REQUEST_MODAL_OPENED: 'city_request_modal_opened',
+  CITY_REQUEST_SUBMITTED: 'city_request_submitted',
+  CITY_REQUEST_SUCCESS: 'city_request_success',
 } as const;
 
 export type AnalyticsEventName = typeof EVENTS[keyof typeof EVENTS];

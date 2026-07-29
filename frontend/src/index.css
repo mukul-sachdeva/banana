@@ -2386,6 +2386,22 @@ h4 {
   border: 1px solid var(--border-color);
 }
 
+.popular-car-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--primary);
+  transition: all 0.2s ease;
+}
+
+.popular-car-card:hover .popular-car-action {
+  color: #1d4ed8;
+  transform: translateX(2px);
+}
+
 @media (max-width: 600px) {
   .popular-cars-section.popular-cars-top {
     padding: 2.5rem 1rem 3rem;
@@ -2402,5 +2418,524 @@ h4 {
 @media (max-width: 600px) {
   .hero-section.hero-middle {
     padding: 3.5rem 1.25rem 4rem;
+  }
+}
+
+/* ============================================
+   CITY REQUEST (BRING FLOWZAP TO YOUR CITY)
+   ============================================ */
+
+/* Prominent Homepage City Availability Banner */
+.city-availability-banner {
+  max-width: 720px;
+  margin: 1.25rem auto 0;
+  padding: 0.85rem 1.35rem;
+  background-color: var(--bg-card, #ffffff);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all 0.25s ease;
+}
+
+.city-availability-banner:hover {
+  border-color: var(--primary);
+  box-shadow: 0 14px 30px -5px rgba(37, 99, 235, 0.14);
+}
+
+.city-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.city-banner-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #059669;
+  background-color: rgba(16, 185, 129, 0.1);
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  letter-spacing: 0.02em;
+}
+
+.city-banner-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.city-banner-cta {
+  background-color: rgba(37, 99, 235, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 1.1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.city-banner-cta:hover {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .city-availability-banner {
+    border-radius: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.15rem;
+    margin: 1rem 1rem 0;
+  }
+  .city-banner-cta {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Secondary CTA Trigger Link/Button */
+.city-request-trigger-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-family: var(--font-primary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  margin-top: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.city-request-trigger-btn:hover {
+  opacity: 1;
+  color: #1d4ed8;
+  background-color: rgba(37, 99, 235, 0.06);
+  transform: translateX(2px);
+}
+
+/* Modal Overlay & Backdrop */
+.city-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeInModal 0.25s ease-out forwards;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Modal Container */
+.city-modal-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg, 20px);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2.5rem 2.25rem 2.75rem;
+  animation: slideUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUpModal {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.city-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.city-modal-close:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+  color: #1e293b;
+}
+
+.city-modal-header {
+  margin-bottom: 1.75rem;
+}
+
+.city-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+  background-color: rgba(37, 99, 235, 0.08);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.city-modal-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.city-modal-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.city-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+/* Chip Multi-Select */
+.city-car-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.city-car-chip {
+  background-color: var(--bg-card-hover, #f8fafc);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.city-car-chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.city-car-chip.selected {
+  background-color: rgba(37, 99, 235, 0.1);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Timeline Radio Selector */
+.city-timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.city-timeline-option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card-hover, #f8fafc);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.city-timeline-option:hover {
+  border-color: var(--primary);
+}
+
+.city-timeline-option.selected {
+  border-color: var(--primary);
+  background-color: rgba(37, 99, 235, 0.06);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.city-timeline-radio-custom {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.city-timeline-option.selected .city-timeline-radio-custom {
+  border-color: var(--primary);
+  background-color: var(--primary);
+  box-shadow: inset 0 0 0 2px #ffffff;
+}
+
+/* Success Screen */
+.city-modal-success {
+  text-align: center;
+  padding: 1.5rem 0.5rem 1rem;
+}
+
+.city-success-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  animation: popIcon 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIcon {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.city-success-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.city-success-message {
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.city-success-subtext {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.city-success-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.city-success-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* ADMIN DASHBOARD - TABS & DEMAND INTELLIGENCE */
+.admin-tabs-nav {
+  display: flex;
+  gap: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.admin-tab-btn {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #64748b;
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.admin-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.admin-tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.demand-city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.demand-city-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md, 12px);
+  padding: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demand-city-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.demand-city-card.selected {
+  border-color: var(--primary);
+  background-color: rgba(37, 99, 235, 0.03);
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.demand-city-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.demand-city-rank {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  background-color: rgba(37, 99, 235, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.demand-city-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+  margin-left: 0.5rem;
+}
+
+.demand-city-count {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.demand-progress-bar-bg {
+  height: 6px;
+  width: 100%;
+  background-color: var(--border-color);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+}
+
+.demand-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+.demand-city-card-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.demand-filter-hint {
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.admin-car-chip {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: rgba(37, 99, 235, 0.08);
+  color: var(--primary);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+
+.clear-filter-btn {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.clear-filter-btn:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+@media (max-width: 640px) {
+  .city-modal-container {
+    padding: 1.75rem 1.25rem 2rem;
+  }
+  .city-timeline-grid {
+    grid-template-columns: 1fr;
+  }
+  .demand-city-grid {
+    grid-template-columns: 1fr;
   }
 }
