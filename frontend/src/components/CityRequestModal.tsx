@@ -141,7 +141,7 @@ export default function CityRequestModal({ isOpen, onClose, source = 'website' }
             <div className="city-modal-header">
               <h2 className="city-modal-title">Bring Flowzap to Your City</h2>
               <p className="city-modal-subtitle">
-                Flowzap is currently available only in Ludhiana during our pilot. We're expanding city by city based on real demand. Tell us where you'd like Flowzap next and we'll notify you when we launch there.
+                Flowzap is currently available in Ludhiana, Chandigarh, Mohali, Panchkula, and Kharar during our pilot. We're expanding city by city based on real demand. Tell us where you'd like Flowzap next and we'll notify you when we launch there.
               </p>
             </div>
 

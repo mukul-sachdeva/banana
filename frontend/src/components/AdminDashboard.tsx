@@ -383,7 +383,7 @@ export default function AdminDashboard() {
             <div className="admin-empty-state">
               <MapPin size={48} className="admin-empty-icon" />
               <h3>No city requests captured yet</h3>
-              <p style={{ fontSize: '0.9rem', color: '#64748b', marginTop: '0.5rem' }}>When visitors outside Ludhiana request Flowzap in their city, their entries will show up here.</p>
+              <p style={{ fontSize: '0.9rem', color: '#64748b', marginTop: '0.5rem' }}>When visitors outside our active cities request Flowzap in their city, their entries will show up here.</p>
             </div>
           ) : (
             <div className="admin-table-container">

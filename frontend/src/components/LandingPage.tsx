@@ -200,7 +200,7 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
       <div className="city-availability-banner">
         <div className="city-banner-left">
           <span className="city-banner-live-badge">
-            <MapPin size={14} /> Currently Live in Ludhiana
+            <MapPin size={14} /> Currently Live in Ludhiana & Tricity
           </span>
         </div>
         <button
@@ -211,7 +211,7 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
             void trackEvent(EVENTS.CITY_REQUEST_MODAL_OPENED, { source: 'homepage' });
           }}
         >
-          Not in Ludhiana? Request your city →
+          Not in these cities? Request your city →
         </button>
       </div>
 
@@ -295,7 +295,7 @@ export default function LandingPage({ onStartBooking, onCarSelect }: LandingPage
               void trackEvent(EVENTS.CITY_REQUEST_MODAL_OPENED, { source: 'homepage' });
             }}
           >
-            Not in Ludhiana? Request your city →
+            Not in these cities? Request your city →
           </button>
         </div>
       </section>

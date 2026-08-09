@@ -87,7 +87,11 @@ const generateAvailableSlots = (selectedDate: string) => {
 };
 
 const CITIES = [
-  'Ludhiana'
+  'Ludhiana',
+  'Chandigarh',
+  'Mohali',
+  'Panchkula',
+  'Kharar'
 ];
 
 export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: BookingFormProps) {
@@ -326,7 +330,7 @@ export default function BookingForm({ selectedCar, onBack, onBookingSuccess }: B
                   void trackEvent(EVENTS.CITY_REQUEST_MODAL_OPENED, { source: 'booking_form' });
                 }}
               >
-                Not in Ludhiana? Request your city →
+                Not in these cities? Request your city →
               </button>
             </div>
 
