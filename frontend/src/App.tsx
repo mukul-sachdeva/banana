@@ -10,6 +10,7 @@ import PrivacyPage from './components/PrivacyPage';
 import TermsPage from './components/TermsPage';
 import NotFoundPage from './components/NotFoundPage';
 import ArticlePage from './components/ArticlePage';
+import SeoTestDrivePage from './components/SeoTestDrivePage';
 import { Car, BookingResponse } from './types';
 import { trackEvent } from './analytics/analytics';
 import { EVENTS } from './analytics/constants';
@@ -121,6 +122,9 @@ function CustomerApp() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/blog/:slug" element={<ArticlePage onStartBooking={startBooking} />} />
+          <Route path="/test-drive/:city" element={<SeoTestDrivePage onStartBooking={startBooking} onCarSelect={handleCarSelect} />} />
+          <Route path="/test-drive/:brand/:city" element={<SeoTestDrivePage onStartBooking={startBooking} onCarSelect={handleCarSelect} />} />
+          <Route path="/test-drive/:brand/:model/:city" element={<SeoTestDrivePage onStartBooking={startBooking} onCarSelect={handleCarSelect} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
@@ -138,8 +142,20 @@ function CustomerApp() {
           <span style={{ opacity: 0.5 }}>•</span>
           <Link to="/terms" className="footer-link" onClick={() => { void trackEvent(EVENTS.TERMS_OPENED, { source: 'footer' }); }}>Terms & Conditions</Link>
         </p>
+
         <div className="footer-suggested">
-          <p className="footer-suggested-title">Suggested Pages</p>
+          <p className="footer-suggested-title">Creta Gold Standard Test Drives</p>
+          <div className="footer-suggested-links">
+            <Link to="/test-drive/hyundai/creta/chandigarh" className="footer-link">Creta Chandigarh</Link>
+            <Link to="/test-drive/hyundai/creta/mohali" className="footer-link">Creta Mohali</Link>
+            <Link to="/test-drive/hyundai/creta/panchkula" className="footer-link">Creta Panchkula</Link>
+            <Link to="/test-drive/hyundai/creta/kharar" className="footer-link">Creta Kharar</Link>
+            <Link to="/test-drive/hyundai/creta/ludhiana" className="footer-link">Creta Ludhiana</Link>
+          </div>
+        </div>
+
+        <div className="footer-suggested" style={{ marginTop: '0.75rem' }}>
+          <p className="footer-suggested-title">Suggested Guides</p>
           <div className="footer-suggested-links">
             <Link to="/blog/home-vs-dealer-test-drive" className="footer-link">Home vs Dealer Test Drive</Link>
             <Link to="/blog/test-drive-checklist" className="footer-link">Test Drive Checklist</Link>
